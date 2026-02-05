@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         drawMiniMaze(ctx, mazePreviewCanvas.width, mazePreviewCanvas.height);
     }
 
-    // Smooth scroll for scroll indicator
+    // Scroll indicator click handler
     const scrollIndicator = document.querySelector('.scroll-indicator');
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', () => {
@@ -26,6 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 behavior: 'smooth'
             });
         });
+    }
+
+    // Scroll-reveal for projects section
+    const projectsSection = document.querySelector('.projects-section');
+    if (projectsSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(projectsSection);
     }
 });
 

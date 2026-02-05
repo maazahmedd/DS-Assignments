@@ -207,6 +207,7 @@ class WarGame {
         this.computerDeck = new Deck();
         this.playerScore = 0;
         this.computerScore = 0;
+        this.tiesCount = 0;
         this.roundsPlayed = 0;
         this.gameOver = false;
         this.history = [];
@@ -237,6 +238,7 @@ class WarGame {
 
         this.playerScore = 0;
         this.computerScore = 0;
+        this.tiesCount = 0;
         this.roundsPlayed = 0;
         this.gameOver = false;
         this.history = [];
@@ -263,6 +265,7 @@ class WarGame {
             this.computerScore++;
             result = 'computer';
         } else {
+            this.tiesCount++;
             result = 'tie';
         }
 
@@ -314,6 +317,7 @@ class GameUI {
         // DOM elements
         this.playerScoreEl = document.getElementById('player-score');
         this.computerScoreEl = document.getElementById('computer-score');
+        this.tiesCountEl = document.getElementById('ties-count');
         this.roundsPlayedEl = document.getElementById('rounds-played');
         this.playerCardsEl = document.getElementById('player-cards');
         this.computerCardsEl = document.getElementById('computer-cards');
@@ -346,6 +350,7 @@ class GameUI {
     updateUI() {
         this.playerScoreEl.textContent = this.game.playerScore;
         this.computerScoreEl.textContent = this.game.computerScore;
+        this.tiesCountEl.textContent = this.game.tiesCount;
         this.roundsPlayedEl.textContent = this.game.roundsPlayed;
         this.playerCardsEl.textContent = this.game.playerDeck.numCards();
         this.computerCardsEl.textContent = this.game.computerDeck.numCards();
