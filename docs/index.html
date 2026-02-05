@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive visualizations of data structures and algorithms including maze generation, linked lists, and card games.">
+    <meta name="theme-color" content="#FFFEF2">
+    <title>Data Structures Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="hero">
+            <div class="hero-content">
+                <h1 class="glitch" data-text="Data Structures">Data Structures</h1>
+                <p class="subtitle">A visual exploration of algorithms and data structures</p>
+                <div class="hero-description">
+                    <p>Interactive visualizations of fundamental computer science concepts, from linked lists to maze generation algorithms.</p>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Explore Projects</span>
+                <div class="arrow"></div>
+            </div>
+        </header>
+
+        <main class="projects-section">
+            <h2 class="section-title">Projects</h2>
+
+            <div class="projects-grid">
+                <!-- Maze Generator -->
+                <a href="projects/maze.html" class="project-card" data-project="maze">
+                    <div class="card-visual maze-preview">
+                        <canvas id="maze-preview-canvas"></canvas>
+                    </div>
+                    <div class="card-content">
+                        <h3>Maze Generator</h3>
+                        <p>Watch Prim's algorithm carve out a perfect maze in real-time. Every maze has exactly one solution.</p>
+                        <div class="tags">
+                            <span class="tag">Prim's Algorithm</span>
+                            <span class="tag">Graph Theory</span>
+                            <span class="tag">Randomization</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Linked List -->
+                <a href="projects/linkedlist.html" class="project-card" data-project="linkedlist">
+                    <div class="card-visual linkedlist-preview">
+                        <div class="node-chain">
+                            <div class="preview-node">
+                                <span>12</span>
+                                <div class="pointer"></div>
+                            </div>
+                            <div class="preview-node">
+                                <span>7</span>
+                                <div class="pointer"></div>
+                            </div>
+                            <div class="preview-node">
+                                <span>23</span>
+                                <div class="pointer"></div>
+                            </div>
+                            <div class="preview-node null">
+                                <span>null</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Linked List Visualizer</h3>
+                        <p>Interactive visualization of singly linked list operations. See how nodes connect and pointers update.</p>
+                        <div class="tags">
+                            <span class="tag">Linked List</span>
+                            <span class="tag">Pointers</span>
+                            <span class="tag">CRUD Operations</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Card Game -->
+                <a href="projects/cardgame.html" class="project-card" data-project="cardgame">
+                    <div class="card-visual cardgame-preview">
+                        <div class="playing-cards">
+                            <div class="playing-card card-back"></div>
+                            <div class="playing-card card-front">
+                                <span class="card-rank">A</span>
+                                <span class="card-suit hearts">&hearts;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>War Card Game</h3>
+                        <p>Play the classic card game War against the computer. Built using a custom linked list implementation.</p>
+                        <div class="tags">
+                            <span class="tag">Game Logic</span>
+                            <span class="tag">Deck Shuffling</span>
+                            <span class="tag">Data Structures</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Target & Keypad -->
+                <a href="projects/graphics.html" class="project-card" data-project="graphics">
+                    <div class="card-visual graphics-preview">
+                        <div class="target-rings">
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <div class="ring ring-3"></div>
+                            <div class="ring ring-4"></div>
+                            <div class="ring ring-5"></div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Graphics & UI</h3>
+                        <p>Interactive target drawing and phone keypad. Demonstrating graphics rendering and event handling.</p>
+                        <div class="tags">
+                            <span class="tag">Canvas Drawing</span>
+                            <span class="tag">Event Handling</span>
+                            <span class="tag">UI Components</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="js/home.js"></script>
+</body>
+</html>

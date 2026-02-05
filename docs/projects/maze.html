@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Generator - Data Structures Portfolio</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container project-page">
+        <header class="project-header">
+            <a href="../index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+            <h1>Maze Generator</h1>
+            <p class="description">
+                Watch Prim's algorithm generate a perfect maze in real-time.
+                A perfect maze has exactly one path between any two cells.
+            </p>
+        </header>
+
+        <main>
+            <div class="visualization-container">
+                <canvas id="maze-canvas" class="viz-canvas"></canvas>
+
+                <div class="controls">
+                    <button id="generate-btn" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        Generate Maze
+                    </button>
+
+                    <button id="reset-btn" class="btn btn-secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                            <path d="M3 3v5h5"/>
+                        </svg>
+                        Reset
+                    </button>
+
+                    <div class="input-group">
+                        <label for="maze-width">Width:</label>
+                        <input type="number" id="maze-width" value="25" min="5" max="50">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="maze-height">Height:</label>
+                        <input type="number" id="maze-height" value="25" min="5" max="50">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="maze-speed">Speed:</label>
+                        <select id="maze-speed">
+                            <option value="50">Fast</option>
+                            <option value="100" selected>Medium</option>
+                            <option value="200">Slow</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg);">
+                <div class="info-panel">
+                    <h3>How It Works</h3>
+                    <p>
+                        This maze is generated using <strong>Prim's Algorithm</strong>, a greedy algorithm
+                        typically used for finding minimum spanning trees. When adapted for maze generation:
+                    </p>
+                    <ol style="margin-top: var(--space-md); padding-left: var(--space-lg); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                        <li>Start with a grid where all cells have walls</li>
+                        <li>Pick a starting cell and mark it as visited</li>
+                        <li>Add all walls of the current cell to a wall list</li>
+                        <li>While there are walls in the list:
+                            <ul style="margin-top: var(--space-xs); padding-left: var(--space-md);">
+                                <li>Pick a random wall</li>
+                                <li>If one side is visited and the other isn't, remove the wall</li>
+                                <li>Mark the new cell as visited and add its walls</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Legend</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-md);">
+                        <div style="display: flex; align-items: center; gap: var(--space-md);">
+                            <div style="width: 24px; height: 24px; background: #3D3456; border: 1px solid var(--border-color);"></div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">Wall</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--space-md);">
+                            <div style="width: 24px; height: 24px; background: #FFFEF2; border: 1px solid var(--border-color);"></div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">Path (visited)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--space-md);">
+                            <div style="width: 24px; height: 24px; background: var(--accent-primary);"></div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">Current frontier</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--space-md);">
+                            <div style="width: 24px; height: 24px; background: var(--success);"></div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">Start cell</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--space-md);">
+                            <div style="width: 24px; height: 24px; background: var(--error);"></div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">End cell</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Algorithm Complexity</h3>
+                    <div style="margin-top: var(--space-md);">
+                        <p><strong>Time Complexity:</strong> <code>O(n log n)</code></p>
+                        <p style="margin-top: var(--space-sm);">Where n is the number of cells. Each wall is processed once, and the priority queue operations take log n time.</p>
+                        <p style="margin-top: var(--space-md);"><strong>Space Complexity:</strong> <code>O(n)</code></p>
+                        <p style="margin-top: var(--space-sm);">We store the grid of cells and a list of walls to process.</p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Statistics</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value" id="stat-cells">0</div>
+                            <div class="stat-label">Total Cells</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="stat-visited">0</div>
+                            <div class="stat-label">Visited</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="stat-walls">0</div>
+                            <div class="stat-label">Walls Removed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/maze.js"></script>
+</body>
+</html>

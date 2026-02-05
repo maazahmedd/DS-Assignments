@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphics & UI - Data Structures Portfolio</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .demo-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+        }
+
+        .demo-panel h3 {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .demo-canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            min-height: 280px;
+        }
+
+        #target-canvas {
+            display: block;
+        }
+
+        /* Keypad Styles */
+        .keypad-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
+        .keypad-display {
+            width: 100%;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            text-align: right;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: var(--accent-tertiary);
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .keypad-btn {
+            aspect-ratio: 1;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .keypad-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+        }
+
+        .keypad-btn:active {
+            background: var(--accent-primary);
+            transform: scale(0.95);
+        }
+
+        .keypad-btn.special {
+            font-size: 1.75rem;
+        }
+
+        .keypad-actions {
+            display: flex;
+            gap: var(--space-sm);
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .keypad-action-btn {
+            flex: 1;
+            padding: var(--space-sm);
+            font-size: 0.875rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            transition: all var(--transition-fast);
+        }
+
+        .keypad-action-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
+        .keypad-action-btn.call {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .keypad-action-btn.call:hover {
+            opacity: 0.9;
+        }
+
+        /* Target controls */
+        .target-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .color-picker-group {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .color-picker-group label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .color-picker-group input[type="color"] {
+            width: 40px;
+            height: 30px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container project-page">
+        <header class="project-header">
+            <a href="../index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+            <h1>Graphics & UI Components</h1>
+            <p class="description">
+                Interactive demonstrations of graphics rendering and UI event handling.
+                Originally implemented in Java Swing, recreated here with HTML Canvas.
+            </p>
+        </header>
+
+        <main>
+            <div class="demos-grid">
+                <!-- Target Drawing Demo -->
+                <div class="demo-panel">
+                    <h3>Target Drawing</h3>
+                    <div class="demo-canvas-container">
+                        <canvas id="target-canvas" width="250" height="250"></canvas>
+                    </div>
+                    <div class="target-controls">
+                        <div class="input-group">
+                            <label for="num-rings">Rings:</label>
+                            <input type="number" id="num-rings" value="5" min="1" max="10">
+                        </div>
+                        <div class="color-picker-group">
+                            <label for="ring-color-1">Color 1:</label>
+                            <input type="color" id="ring-color-1" value="#EEE6F3">
+                        </div>
+                        <div class="color-picker-group">
+                            <label for="ring-color-2">Color 2:</label>
+                            <input type="color" id="ring-color-2" value="#330662">
+                        </div>
+                        <div class="color-picker-group">
+                            <label for="center-color">Center:</label>
+                            <input type="color" id="center-color" value="#D4006A">
+                        </div>
+                        <button id="redraw-target" class="btn btn-primary">Redraw</button>
+                    </div>
+                </div>
+
+                <!-- Phone Keypad Demo -->
+                <div class="demo-panel">
+                    <h3>Phone Keypad (Digicode)</h3>
+                    <div class="demo-canvas-container">
+                        <div class="keypad-container">
+                            <div class="keypad-display" id="keypad-display">
+                                <span id="display-text"></span>
+                            </div>
+                            <div class="keypad-grid">
+                                <button class="keypad-btn" data-key="1">1</button>
+                                <button class="keypad-btn" data-key="2">2</button>
+                                <button class="keypad-btn" data-key="3">3</button>
+                                <button class="keypad-btn" data-key="4">4</button>
+                                <button class="keypad-btn" data-key="5">5</button>
+                                <button class="keypad-btn" data-key="6">6</button>
+                                <button class="keypad-btn" data-key="7">7</button>
+                                <button class="keypad-btn" data-key="8">8</button>
+                                <button class="keypad-btn" data-key="9">9</button>
+                                <button class="keypad-btn special" data-key="*">*</button>
+                                <button class="keypad-btn" data-key="0">0</button>
+                                <button class="keypad-btn special" data-key="#">#</button>
+                            </div>
+                            <div class="keypad-actions">
+                                <button class="keypad-action-btn" id="keypad-clear">Clear</button>
+                                <button class="keypad-action-btn" id="keypad-backspace">←</button>
+                                <button class="keypad-action-btn call" id="keypad-call">Call</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); margin-top: var(--space-lg);">
+                <div class="info-panel">
+                    <h3>Target Implementation</h3>
+                    <p>
+                        The target is drawn using the HTML Canvas API, mirroring the original
+                        Java implementation that used <code>Graphics.fillOval()</code>.
+                    </p>
+                    <div class="code-block" style="margin-top: var(--space-md);">
+<span class="comment">// Draw concentric circles</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i < numRings; i++) {
+    ctx.<span class="function">beginPath</span>();
+    ctx.<span class="function">arc</span>(cx, cy, radius, 0, Math.PI * 2);
+    ctx.<span class="function">fill</span>();
+    radius -= ringWidth;
+}
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Keypad Implementation</h3>
+                    <p>
+                        The keypad demonstrates event handling, originally using Java's
+                        <code>ActionListener</code> interface. Here we use DOM event listeners.
+                    </p>
+                    <div class="code-block" style="margin-top: var(--space-md);">
+<span class="comment">// Event handling pattern</span>
+btn.<span class="function">addEventListener</span>(<span class="string">'click'</span>, (e) => {
+    <span class="keyword">const</span> key = e.target.dataset.key;
+    display.textContent += key;
+});
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Original Java Code</h3>
+                    <p>
+                        These demos were originally part of an introduction to Java GUI programming
+                        using the Swing framework:
+                    </p>
+                    <ul style="margin-top: var(--space-md); padding-left: var(--space-lg); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                        <li><code>JFrame</code> - Main window container</li>
+                        <li><code>JPanel</code> - Drawing surface and layout</li>
+                        <li><code>JButton</code> - Clickable buttons</li>
+                        <li><code>Graphics</code> - 2D rendering context</li>
+                        <li><code>ActionListener</code> - Event handling</li>
+                    </ul>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Web Equivalents</h3>
+                    <p>
+                        The same concepts translate to web technologies:
+                    </p>
+                    <table style="width: 100%; margin-top: var(--space-md); font-size: 0.9rem;">
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: var(--space-sm) 0; color: var(--text-muted);">JFrame</td>
+                            <td style="padding: var(--space-sm) 0;"><code>document.body</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: var(--space-sm) 0; color: var(--text-muted);">JPanel</td>
+                            <td style="padding: var(--space-sm) 0;"><code>&lt;div&gt;</code>, <code>&lt;canvas&gt;</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: var(--space-sm) 0; color: var(--text-muted);">Graphics</td>
+                            <td style="padding: var(--space-sm) 0;"><code>CanvasRenderingContext2D</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: var(--space-sm) 0; color: var(--text-muted);">ActionListener</td>
+                            <td style="padding: var(--space-sm) 0;"><code>addEventListener()</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/graphics.js"></script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Visualizer - Data Structures Portfolio</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .linkedlist-viz {
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            padding: var(--space-md);
+            overflow-x: auto;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+        }
+
+        .node-container {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: nodeAppear 0.3s ease-out;
+        }
+
+        @keyframes nodeAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .node-box {
+            display: flex;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .node-data {
+            padding: var(--space-md) var(--space-lg);
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 600;
+            min-width: 50px;
+            text-align: center;
+            border-right: 2px solid var(--accent-primary);
+        }
+
+        .node-pointer {
+            padding: var(--space-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            background: rgba(122, 0, 204, 0.1);
+        }
+
+        .node-pointer svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-primary);
+        }
+
+        .pointer-arrow {
+            width: 40px;
+            height: 2px;
+            background: var(--accent-primary);
+            position: relative;
+        }
+
+        .pointer-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 5px solid transparent;
+            border-left: 8px solid var(--accent-primary);
+        }
+
+        .node-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .null-node {
+            padding: var(--space-md) var(--space-lg);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+        }
+
+        .node.highlight .node-box {
+            border-color: var(--success);
+            box-shadow: 0 0 20px rgba(0, 133, 119, 0.25);
+        }
+
+        .node.removing {
+            animation: nodeRemove 0.3s ease-out forwards;
+        }
+
+        @keyframes nodeRemove {
+            to {
+                opacity: 0;
+                transform: scale(0.8) translateY(10px);
+            }
+        }
+
+        .empty-message {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .operation-log {
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .log-entry {
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-entry .operation {
+            color: var(--accent-tertiary);
+        }
+
+        .log-entry .value {
+            color: var(--success);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .control-group {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .control-group input {
+            flex: 1;
+            min-width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container project-page">
+        <header class="project-header">
+            <a href="../index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+            <h1>Linked List Visualizer</h1>
+            <p class="description">
+                Interactive visualization of a singly linked list. Watch how nodes connect
+                through pointers and see operations animate in real-time.
+            </p>
+        </header>
+
+        <main>
+            <div class="visualization-container">
+                <div class="linkedlist-viz" id="linkedlist-viz">
+                    <span class="empty-message">List is empty. Add some elements!</span>
+                </div>
+
+                <div class="controls">
+                    <div class="controls-grid">
+                        <div class="control-group">
+                            <input type="number" id="input-value" placeholder="Value">
+                            <button id="add-first-btn" class="btn btn-primary">Add First</button>
+                        </div>
+
+                        <div class="control-group">
+                            <input type="number" id="input-value-last" placeholder="Value">
+                            <button id="add-last-btn" class="btn btn-primary">Add Last</button>
+                        </div>
+
+                        <div class="control-group">
+                            <input type="number" id="input-position" placeholder="Position" min="0">
+                            <input type="number" id="input-value-pos" placeholder="Value">
+                            <button id="insert-btn" class="btn btn-secondary">Insert At</button>
+                        </div>
+
+                        <div class="control-group">
+                            <button id="remove-first-btn" class="btn btn-secondary">Remove First</button>
+                            <button id="remove-last-btn" class="btn btn-secondary">Remove Last</button>
+                        </div>
+
+                        <div class="control-group">
+                            <input type="number" id="remove-position" placeholder="Position" min="0">
+                            <button id="remove-at-btn" class="btn btn-secondary">Remove At</button>
+                        </div>
+
+                        <div class="control-group">
+                            <button id="clear-btn" class="btn btn-secondary">Clear All</button>
+                            <button id="random-btn" class="btn btn-secondary">Random List</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg);">
+                <div class="info-panel">
+                    <h3>About Singly Linked Lists</h3>
+                    <p>
+                        A singly linked list is a linear data structure where each element (node) contains:
+                    </p>
+                    <ul style="margin-top: var(--space-md); padding-left: var(--space-lg); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                        <li><strong>Data</strong> - The actual value stored</li>
+                        <li><strong>Next pointer</strong> - Reference to the next node</li>
+                    </ul>
+                    <p style="margin-top: var(--space-md);">
+                        The list maintains a <code>head</code> pointer to the first node and optionally a
+                        <code>tail</code> pointer to the last node for O(1) append operations.
+                    </p>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Time Complexity</h3>
+                    <div style="margin-top: var(--space-md); font-size: 0.9rem;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: var(--space-sm) 0; color: var(--text-secondary);">Add First</td>
+                                <td style="padding: var(--space-sm) 0; text-align: right;"><code>O(1)</code></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: var(--space-sm) 0; color: var(--text-secondary);">Add Last</td>
+                                <td style="padding: var(--space-sm) 0; text-align: right;"><code>O(1)*</code></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: var(--space-sm) 0; color: var(--text-secondary);">Insert At</td>
+                                <td style="padding: var(--space-sm) 0; text-align: right;"><code>O(n)</code></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: var(--space-sm) 0; color: var(--text-secondary);">Remove First</td>
+                                <td style="padding: var(--space-sm) 0; text-align: right;"><code>O(1)</code></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: var(--space-sm) 0; color: var(--text-secondary);">Remove Last</td>
+                                <td style="padding: var(--space-sm) 0; text-align: right;"><code>O(n)</code></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: var(--space-sm) 0; color: var(--text-secondary);">Search</td>
+                                <td style="padding: var(--space-sm) 0; text-align: right;"><code>O(n)</code></td>
+                            </tr>
+                        </table>
+                        <p style="margin-top: var(--space-sm); font-size: 0.8rem; color: var(--text-muted);">
+                            * O(1) with tail pointer, O(n) without
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Statistics</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value" id="stat-size">0</div>
+                            <div class="stat-label">Nodes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="stat-head">-</div>
+                            <div class="stat-label">Head</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="stat-tail">-</div>
+                            <div class="stat-label">Tail</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Operation Log</h3>
+                    <div class="operation-log" id="operation-log">
+                        <div class="log-entry">Ready to perform operations...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/linkedlist.js"></script>
+</body>
+</html>
