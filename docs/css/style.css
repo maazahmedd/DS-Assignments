@@ -62,7 +62,6 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
     font-size: 16px;
 }
 
@@ -103,8 +102,7 @@ button {
    ============================================ */
 
 .hero {
-    height: 100vh;
-    scroll-snap-align: start;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -177,7 +175,6 @@ button {
    ============================================ */
 
 .projects-section {
-    scroll-snap-align: start;
     padding: var(--space-3xl) 0;
     opacity: 0;
     transform: translateY(30px);

@@ -28,8 +28,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Scroll-reveal for projects section
+    // Projects section reference (used by snap listener and IntersectionObserver)
     const projectsSection = document.querySelector('.projects-section');
+
+    // Auto-snap: slight scroll from hero → jump to projects
+    const hero = document.querySelector('.hero');
+    if (hero && projectsSection) {
+        let hasSnapped = false;
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const heroHeight = hero.offsetHeight;
+
+            if (!hasSnapped && scrollY > 50 && scrollY < heroHeight) {
+                hasSnapped = true;
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            if (scrollY === 0) {
+                hasSnapped = false;
+            }
+        });
+    }
+
+    // Scroll-reveal for projects section
     if (projectsSection) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
