@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>War Card Game - Data Structures Portfolio</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--space-2xl);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            min-height: 450px;
+        }
+
+        .game-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+            gap: var(--space-2xl);
+        }
+
+        .player-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .player-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .card-slot {
+            width: 100px;
+            height: 140px;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .game-card {
+            width: 100px;
+            height: 140px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            position: absolute;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-card.face-down {
+            background: linear-gradient(135deg, #1e3a5f 25%, #2a4a6f 25%, #2a4a6f 50%, #1e3a5f 50%, #1e3a5f 75%, #2a4a6f 75%);
+            background-size: 10px 10px;
+            border: 3px solid #2a4a6f;
+        }
+
+        .game-card.face-up {
+            background: white;
+            color: #1a1a2e;
+        }
+
+        .game-card .rank {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .game-card .suit {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .game-card.hearts .suit,
+        .game-card.diamonds .suit {
+            color: #e63946;
+        }
+
+        .game-card.spades .suit,
+        .game-card.clubs .suit {
+            color: #1a1a2e;
+        }
+
+        .deck-count {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--space-sm);
+        }
+
+        .battle-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
+        .vs-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .result-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            min-height: 28px;
+            text-align: center;
+        }
+
+        .result-text.player-win { color: var(--success); }
+        .result-text.computer-win { color: var(--error); }
+        .result-text.tie { color: var(--warning); }
+
+        .game-controls {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+
+        .play-btn {
+            padding: var(--space-md) var(--space-2xl);
+            font-size: 1rem;
+        }
+
+        .scoreboard {
+            display: flex;
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-xl);
+            padding: var(--space-lg) var(--space-2xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+        }
+
+        .score-value.player { color: var(--accent-primary); }
+        .score-value.computer { color: var(--accent-secondary); }
+
+        .score-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .game-message {
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+            min-height: 32px;
+            margin-bottom: var(--space-lg);
+        }
+
+        .winner-message {
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            animation: pulse 1s ease infinite;
+        }
+
+        .winner-message.player-wins {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .winner-message.computer-wins {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes cardFlip {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        .card-flip {
+            animation: cardFlip 0.3s ease;
+        }
+
+        .history-log {
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .history-entry {
+            padding: var(--space-xs) 0;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container project-page">
+        <header class="project-header">
+            <a href="../index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+            <h1>War Card Game</h1>
+            <p class="description">
+                Play the classic card game War against the computer.
+                Built using a custom linked list implementation for deck management.
+            </p>
+        </header>
+
+        <main>
+            <div class="visualization-container">
+                <div class="game-container">
+                    <div class="scoreboard">
+                        <div class="score-item">
+                            <div class="score-value player" id="player-score">0</div>
+                            <div class="score-label">You</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="rounds-played">0</div>
+                            <div class="score-label">Rounds</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value computer" id="computer-score">0</div>
+                            <div class="score-label">Computer</div>
+                        </div>
+                    </div>
+
+                    <div class="game-message" id="game-message">Click "Draw Card" to play!</div>
+
+                    <div class="game-area">
+                        <div class="player-area">
+                            <div class="player-label">You</div>
+                            <div class="card-slot" id="player-card-slot">
+                                <div class="game-card face-down" id="player-deck"></div>
+                            </div>
+                            <div class="deck-count"><span id="player-cards">26</span> cards</div>
+                        </div>
+
+                        <div class="battle-area">
+                            <div class="card-slot" id="player-battle-slot"></div>
+                            <div class="result-text" id="result-text"></div>
+                            <div class="card-slot" id="computer-battle-slot"></div>
+                        </div>
+
+                        <div class="player-area">
+                            <div class="player-label">Computer</div>
+                            <div class="card-slot" id="computer-card-slot">
+                                <div class="game-card face-down" id="computer-deck"></div>
+                            </div>
+                            <div class="deck-count"><span id="computer-cards">26</span> cards</div>
+                        </div>
+                    </div>
+
+                    <div class="game-controls">
+                        <button id="draw-btn" class="btn btn-primary play-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                            Draw Card
+                        </button>
+                        <button id="new-game-btn" class="btn btn-secondary play-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                <path d="M3 3v5h5"/>
+                            </svg>
+                            New Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl);">
+                <div class="info-panel">
+                    <h3>How to Play</h3>
+                    <ol style="margin-top: var(--space-md); padding-left: var(--space-lg); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                        <li>Each player starts with 26 cards</li>
+                        <li>Click "Draw Card" to flip a card from each deck</li>
+                        <li>Higher card wins the round and scores a point</li>
+                        <li>Ace is highest (14), 2 is lowest</li>
+                        <li>Ties result in no points awarded</li>
+                        <li>Game ends when all cards are played</li>
+                    </ol>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Card Rankings</h3>
+                    <div style="margin-top: var(--space-md); font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary);">
+                        <p>A (14) > K (13) > Q (12) > J (11)</p>
+                        <p style="margin-top: var(--space-sm);">> 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2</p>
+                        <p style="margin-top: var(--space-md); color: var(--text-muted);">
+                            Suits don't affect ranking:
+                            <span style="color: #e63946;">&hearts; &diams;</span>
+                            <span style="color: var(--text-primary);">&spades; &clubs;</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Implementation Details</h3>
+                    <p>
+                        This game uses the same <strong>singly linked list</strong> data structure
+                        from Assignment 2 to manage the deck of cards.
+                    </p>
+                    <ul style="margin-top: var(--space-md); padding-left: var(--space-lg); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                        <li><code>Deck</code> class stores 52 Card objects</li>
+                        <li><code>shuffle()</code> uses random insertion/removal</li>
+                        <li>Drawing cards uses <code>removeFirst()</code> - O(1)</li>
+                        <li>Card comparison via <code>isStrongerThan()</code></li>
+                    </ul>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Round History</h3>
+                    <div class="history-log" id="history-log">
+                        <div class="history-entry">Game ready to start...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/cardgame.js"></script>
+</body>
+</html>
