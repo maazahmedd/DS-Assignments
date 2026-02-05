@@ -407,7 +407,6 @@ class GameUI {
                 break;
         }
 
-        this.updateUI();
         this.updateHistory();
 
         // Check for game over
@@ -416,7 +415,9 @@ class GameUI {
             this.showGameOver();
         }
 
+        // Re-enable button after animation completes
         this.isAnimating = false;
+        this.updateUI();
     }
 
     updateHistory() {
