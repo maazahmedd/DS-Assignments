@@ -65,18 +65,18 @@
             font-weight: 700;
             position: absolute;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .game-card.face-down {
-            background: linear-gradient(135deg, #1e3a5f 25%, #2a4a6f 25%, #2a4a6f 50%, #1e3a5f 50%, #1e3a5f 75%, #2a4a6f 75%);
+            background: linear-gradient(135deg, #1e1545 25%, #2a2060 25%, #2a2060 50%, #1e1545 50%, #1e1545 75%, #2a2060 75%);
             background-size: 10px 10px;
-            border: 3px solid #2a4a6f;
+            border: 3px solid #2a2060;
         }
 
         .game-card.face-up {
             background: white;
-            color: #1a1a2e;
+            color: #1a1028;
         }
 
         .game-card .rank {
@@ -91,12 +91,12 @@
 
         .game-card.hearts .suit,
         .game-card.diamonds .suit {
-            color: #e63946;
+            color: #D4006A;
         }
 
         .game-card.spades .suit,
         .game-card.clubs .suit {
-            color: #1a1a2e;
+            color: #1a1028;
         }
 
         .deck-count {
@@ -188,12 +188,12 @@
         }
 
         .winner-message.player-wins {
-            background: rgba(16, 185, 129, 0.2);
+            background: rgba(0, 133, 119, 0.12);
             color: var(--success);
         }
 
         .winner-message.computer-wins {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(212, 0, 106, 0.12);
             color: var(--error);
         }
 
@@ -325,7 +325,7 @@
                         <p style="margin-top: var(--space-sm);">> 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2</p>
                         <p style="margin-top: var(--space-md); color: var(--text-muted);">
                             Suits don't affect ranking:
-                            <span style="color: #e63946;">&hearts; &diams;</span>
+                            <span style="color: #D4006A;">&hearts; &diams;</span>
                             <span style="color: var(--text-primary);">&spades; &clubs;</span>
                         </p>
                     </div>

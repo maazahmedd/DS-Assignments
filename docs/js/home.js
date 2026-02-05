@@ -35,8 +35,8 @@ function drawMiniMaze(ctx, width, height) {
     const rows = Math.floor(height / cellSize);
 
     // Colors
-    const wallColor = '#12121a';
-    const pathColor = '#6366f1';
+    const wallColor = '#3D3456';
+    const pathColor = '#7A00CC';
 
     // Fill background
     ctx.fillStyle = wallColor;

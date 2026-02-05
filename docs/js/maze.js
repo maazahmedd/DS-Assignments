@@ -20,12 +20,12 @@ class MazeGenerator {
 
         // Colors
         this.colors = {
-            wall: '#12121a',
-            path: '#f0f0f5',
-            frontier: '#6366f1',
-            start: '#10b981',
-            end: '#ef4444',
-            border: '#2a2a3a'
+            wall: '#3D3456',
+            path: '#FFFEF2',
+            frontier: '#7A00CC',
+            start: '#008577',
+            end: '#D4006A',
+            border: '#DDD8CA'
         };
 
         this.resizeCanvas();

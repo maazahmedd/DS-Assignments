@@ -12,9 +12,9 @@ class TargetDrawer {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.numRings = 5;
-        this.color1 = '#f0f0f5';
-        this.color2 = '#1a1a2e';
-        this.centerColor = '#ef4444';
+        this.color1 = '#EEE6F3';
+        this.color2 = '#330662';
+        this.centerColor = '#D4006A';
     }
 
     draw() {
@@ -27,7 +27,7 @@ class TargetDrawer {
         const ringWidth = maxRadius / this.numRings;
 
         // Clear canvas
-        ctx.fillStyle = '#0a0a0f';
+        ctx.fillStyle = '#FFFEF2';
         ctx.fillRect(0, 0, width, height);
 
         // Draw rings from outside to inside
