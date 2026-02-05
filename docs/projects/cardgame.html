@@ -13,10 +13,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: var(--space-2xl);
+            padding: var(--space-lg);
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
-            min-height: 450px;
+            min-height: 350px;
         }
 
         .game-area {
@@ -44,8 +44,8 @@
         }
 
         .card-slot {
-            width: 100px;
-            height: 140px;
+            width: 80px;
+            height: 112px;
             border: 2px dashed var(--border-color);
             border-radius: var(--radius-lg);
             display: flex;
@@ -55,8 +55,8 @@
         }
 
         .game-card {
-            width: 100px;
-            height: 140px;
+            width: 80px;
+            height: 112px;
             border-radius: var(--radius-lg);
             display: flex;
             flex-direction: column;
@@ -143,7 +143,7 @@
 
         .scoreboard {
             display: flex;
-            gap: var(--space-3xl);
+            gap: var(--space-xl);
             margin-bottom: var(--space-xl);
             padding: var(--space-lg) var(--space-2xl);
             background: var(--bg-card);
@@ -156,7 +156,7 @@
         }
 
         .score-value {
-            font-size: 2.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
             font-family: var(--font-mono);
         }
@@ -305,7 +305,7 @@
                 </div>
             </div>
 
-            <div class="info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl);">
+            <div class="info-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg);">
                 <div class="info-panel">
                     <h3>How to Play</h3>
                     <ol style="margin-top: var(--space-md); padding-left: var(--space-lg); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">

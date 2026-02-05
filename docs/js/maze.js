@@ -35,7 +35,7 @@ class MazeGenerator {
     resizeCanvas() {
         const container = this.canvas.parentElement;
         const maxWidth = container.clientWidth - 48; // Account for padding
-        const maxHeight = 500;
+        const maxHeight = 400;
 
         // Calculate cell size to fit the canvas
         const cellWidth = Math.floor(maxWidth / this.width);
